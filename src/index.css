@@ -1,0 +1,43 @@
+@import 'leaflet/dist/leaflet.css';
+@import 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@import "tailwindcss";
+@config "../tailwind.config.js";
+
+.leaflet-default-icon-path {
+  background-image: url('/node_modules/leaflet/dist/images/marker-icon.png');
+}
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Quitar scrollbar horizontal */
+body {
+  overflow-x: hidden;
+}
+
+/* Fuente display para títulos hero */
+.font-display {
+  font-family: 'Syne', sans-serif;
+}
+
+/* Fix avatares apilados en Hero */
+.avatar-stack {
+  display: flex;
+  flex-direction: row !important;
+}
+
+/* Ocultar scrollbar en chips pero mantener scroll */
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
