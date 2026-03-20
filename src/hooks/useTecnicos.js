@@ -81,7 +81,7 @@ export function useTecnicos(filtros = {}) {
         return dist <= filtros.radioKm
       }).map(t => ({
         ...t,
-        distancia: calcularDistancia(filtros.userLng, filtros.userLng, t.lat, t.lng)
+        distancia: calcularDistancia(filtros.userLat, filtros.userLng, t.lat, t.lng)
       }))
     }
 
@@ -100,6 +100,33 @@ export function useTecnicos(filtros = {}) {
         (t.calificacion_promedio || 0) >= filtros.calificacionMin
       )
     }
+
+    // ── ALGORITMO DE RECOMENDACIÓN INTELIGENTE ──
+    // Fórmula que combina: Calificación (Max 50pts) + Premium (30pts fijos) + Cercanía (Max 20pts)
+    resultado = resultado.map(t => {
+      let score = 0
+      
+      // 1. Calificación (cada estrella = 10 puntos, max 50)
+      score += (t.calificacion_promedio || 0) * 10
+      
+      // 2. Estado Premium (+30 puntos fijos)
+      if (t.es_premium) score += 30
+      
+      // 3. Cercanía (max 20 puntos). Solo si tenemos ubicación del usuario
+      if (filtros.userLat && filtros.userLng && t.lat && t.lng) {
+        // Aprovechamos la distancia ya calculada si existe, sino la calculamos
+        const dist = t.distancia ?? calcularDistancia(filtros.userLat, filtros.userLng, t.lat, t.lng)
+        t.distancia = dist
+        // Da 20pts si la distancia es 0km, y va bajando hasta 0pts si está a >=20km
+        const distScore = Math.max(0, 20 - dist)
+        score += distScore
+      }
+
+      return { ...t, scoreRecomendacion: score }
+    })
+
+    // Ordenar por el score final descendente
+    resultado.sort((a, b) => b.scoreRecomendacion - a.scoreRecomendacion)
 
     setTecnicos(resultado)
     setLoading(false)

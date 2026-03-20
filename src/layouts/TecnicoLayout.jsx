@@ -2,7 +2,7 @@ import { Outlet, NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import {
     LayoutDashboard, ClipboardList, Briefcase,
-    DollarSign, MessageCircle, User, LogOut, Wrench, Star
+    DollarSign, MessageCircle, User, LogOut, Wrench, Star, Crown
 } from 'lucide-react'
 import { useNoLeidos } from '../hooks/useChat'
 
@@ -11,6 +11,7 @@ const navItems = [
     { to: '/tecnico/solicitudes', icon: ClipboardList, label: 'Solicitudes' },
     { to: '/tecnico/trabajos', icon: Briefcase, label: 'Trabajos' },
     { to: '/tecnico/ganancias', icon: DollarSign, label: 'Ganancias' },
+    { to: '/tecnico/planes', icon: Crown, label: 'Premium' },
     { to: '/tecnico/chat', icon: MessageCircle, label: 'Chat' },
     { to: '/tecnico/perfil', icon: User, label: 'Mi Perfil' },
 ]

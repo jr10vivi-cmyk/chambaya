@@ -259,7 +259,7 @@ export default function TecnicoDashboard() {
                     Aparece primero en búsquedas, obtén la etiqueta verificada y recibe hasta 3× más solicitudes.
                   </p>
                 </div>
-                <Link to="/tecnico/perfil"
+                <Link to="/tecnico/planes"
                   className="flex items-center gap-2 bg-white text-orange-600 font-semibold px-5 py-3 rounded-xl hover:bg-orange-50 transition whitespace-nowrap text-sm">
                   Ver planes <ArrowRight size={16} />
                 </Link>

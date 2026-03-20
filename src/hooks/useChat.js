@@ -2,8 +2,8 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../context/AuthContext'
 
-// Detectar si un mensaje intenta compartir contacto
-const PATRON_CONTACTO = /(\+?51[\s-]?\d{3}[\s-]?\d{3}[\s-]?\d{3}|\b\d{9}\b|wa\.me|whatsapp|facebook|instagram|@[a-z0-9]+|mi (número|celular|tel[eé]fono)|te llamo|llámame)/i
+// Detectar si un mensaje intenta compartir contacto (10 digitos, correos, redes)
+const PATRON_CONTACTO = /(\+?51[\s-]?\d{3}[\s-]?\d{3}[\s-]?\d{3}|\b\d{9,10}\b|wa\.me|whatsapp|facebook|instagram|@[a-z0-9]+|mi (número|celular|tel[eé]fono)|te llamo|llámame|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}|correo|gmail|hotmail|outlook)/i
 
 export function useConversaciones() {
   const { profile } = useAuth()

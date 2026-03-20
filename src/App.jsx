@@ -31,6 +31,7 @@ import TecnicoSolicitudes from './pages/tecnico/Solicitudes'
 import TecnicoTrabajos from './pages/tecnico/Trabajos'
 import TecnicoGanancias from './pages/tecnico/Ganancias'
 import TecnicoChat from './pages/tecnico/Chat'
+import TecnicoPlanes from './pages/tecnico/Planes'
 
 // Cliente páginas
 import ClienteDashboard from './pages/cliente/Dashboard'
@@ -86,6 +87,7 @@ export default function App() {
             <Route path="solicitudes" element={<TecnicoSolicitudes />} />
             <Route path="trabajos" element={<TecnicoTrabajos />} />
             <Route path="ganancias" element={<TecnicoGanancias />} />
+            <Route path="planes" element={<TecnicoPlanes />} />
             <Route path="chat/:conversacionId?" element={<TecnicoChat />} />
           </Route>
 

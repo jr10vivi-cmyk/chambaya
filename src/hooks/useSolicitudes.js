@@ -124,15 +124,37 @@ export function useSolicitudes(filtroEstado = null) {
 
         // Registrar pago
         const sol = solicitudes.find(s => s.id === solicitudId)
-        await supabase.from('pagos').insert({
+        const comision = precioFinal * 0.10
+        const ganancia = precioFinal * 0.90
+
+        const { data: pagoData } = await supabase.from('pagos').insert({
             solicitud_id: solicitudId,
             cliente_id: sol?.profiles?.id || profile.id,
             tecnico_id: sol?.tecnicos?.id,
             monto_total: precioFinal,
-            comision: precioFinal * 0.10,
-            monto_tecnico: precioFinal * 0.90,
+            comision,
+            monto_tecnico: ganancia,
             estado: 'completado',
-        })
+        }).select('id').single()
+
+        // Registrar ingreso de plataforma (comisión del 10%)
+        // El trigger SQL también lo hace, pero esto sirve como respaldo en caso
+        // de que el trigger encuentre un error de RLS.
+        // Si el trigger está activo, este insert puede generar duplicado;
+        // en ese caso, simplemente lo ignoramos (upsert no aplica, usamos catch).
+        if (pagoData?.id) {
+            await supabase.from('ingresos_plataforma').insert({
+                tipo: 'comision',
+                monto: comision,
+                descripcion: `Comisión 10% — servicio: ${sol?.titulo || solicitudId}`,
+                referencia_id: pagoData.id,
+            }).then(({ error }) => {
+                // Ignorar si ya fue insertado por el trigger SQL
+                if (error && !error.message?.includes('duplicate')) {
+                    console.warn('ingresos_plataforma:', error.message)
+                }
+            })
+        }
 
         setSolic(prev => prev.map(s =>
             s.id === solicitudId
@@ -146,20 +168,22 @@ export function useSolicitudes(filtroEstado = null) {
     // Enviar reseña (cliente)
     const enviarResena = async (solicitudId, { calificacion, comentario }) => {
         const sol = solicitudes.find(s => s.id === solicitudId)
+        if (!sol) return { error: 'Solicitud no encontrada' }
 
         const { error } = await supabase.from('resenas').insert({
             solicitud_id: solicitudId,
             cliente_id: profile.id,
-            tecnico_id: sol?.tecnicos?.id || sol?.tecnico_id,
+            tecnico_id: sol.tecnicos?.id || sol.tecnico_id,
             calificacion,
             comentario,
         })
 
         if (error) return { error: error.message }
 
+        // Actualizar estado local: agregar la reseña a la solicitud
         setSolic(prev => prev.map(s =>
             s.id === solicitudId
-                ? { ...s, resenas: [{ calificacion, comentario }] }
+                ? { ...s, resenas: [{ calificacion, comentario, creado_en: new Date().toISOString() }] }
                 : s
         ))
 
