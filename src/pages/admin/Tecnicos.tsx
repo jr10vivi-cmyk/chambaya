@@ -15,9 +15,10 @@ import {
   ChevronDown,
   RefreshCw,
   Ban,
-  MoreVertical,
   Wrench,
 } from "lucide-react";
+import { DataTable, type Column } from "../../components/ui/DataTable";
+import { ActionMenu } from "../../components/ui/ActionMenu";
 
 // ── Constantes ──────────────────────────────────────────────
 const ESTADOS = [
@@ -49,8 +50,8 @@ const ESTADO_CFG = {
 
 // ── Sub-componentes ──────────────────────────────────────────
 
-function EstadoBadge({ estado }) {
-  const cfg = ESTADO_CFG[estado] || {
+function EstadoBadge({ estado }: { estado: string }) {
+  const cfg = ESTADO_CFG[estado as keyof typeof ESTADO_CFG] || {
     color: "bg-gray-100 text-gray-600 border-gray-200",
     label: estado,
   };
@@ -63,76 +64,7 @@ function EstadoBadge({ estado }) {
   );
 }
 
-function AccionesMenu({ tecnico, onAction }) {
-  const [open, setOpen] = useState(false);
-  const acciones = [
-    { label: "Ver detalle", action: "ver", icon: Eye },
-    {
-      label: "Aprobar",
-      action: "aprobar",
-      icon: CheckCircle,
-      show: tecnico.estado_verificacion !== "aprobado",
-    },
-    {
-      label: "Rechazar",
-      action: "rechazar",
-      icon: XCircle,
-      show: tecnico.estado_verificacion !== "rechazado",
-    },
-    {
-      label: "Suspender",
-      action: "suspender",
-      icon: Ban,
-      show: tecnico.estado_verificacion !== "suspendido",
-    },
-    {
-      label: "Dar Premium",
-      action: "premium",
-      icon: Crown,
-      show: !tecnico.es_premium,
-    },
-    {
-      label: "Quitar Premium",
-      action: "sin_premium",
-      icon: Crown,
-      show: tecnico.es_premium,
-    },
-  ].filter((a) => a.show !== false);
-
-  return (
-    <div className="relative">
-      <button
-        onClick={() => setOpen((v) => !v)}
-        className="p-2 hover:bg-gray-100 rounded-lg transition"
-      >
-        <MoreVertical size={16} className="text-gray-400" />
-      </button>
-      {open && (
-        <>
-          <div className="fixed inset-0 z-10" onClick={() => setOpen(false)} />
-          <div className="absolute right-0 top-8 bg-white border border-gray-200 rounded-xl shadow-lg z-20 py-1 w-44">
-            {acciones.map(({ label, action, icon: Icon }) => (
-              <button
-                key={action}
-                onClick={() => {
-                  onAction(action, tecnico);
-                  setOpen(false);
-                }}
-                className={`w-full flex items-center gap-2.5 px-4 py-2.5 text-sm hover:bg-gray-50 transition text-left
-                  ${action === "rechazar" || action === "suspender" ? "text-red-600" : "text-gray-700"}`}
-              >
-                <Icon size={15} />
-                {label}
-              </button>
-            ))}
-          </div>
-        </>
-      )}
-    </div>
-  );
-}
-
-function TecnicoModal({ tecnico, onClose }) {
+function TecnicoModal({ tecnico, onClose }: { tecnico: TecnicoRow; onClose: () => void }) {
   if (!tecnico) return null;
 
   return (
@@ -248,10 +180,69 @@ function TecnicoModal({ tecnico, onClose }) {
             </div>
           )}
 
+          {/* Documentos de identidad */}
+          {(tecnico.dni || tecnico.foto_dni_url || tecnico.foto_selfie_url) && (
+            <div className="border border-blue-100 bg-blue-50 rounded-xl p-4 space-y-3">
+              <p className="text-sm font-semibold text-blue-700">
+                Documentos de identidad
+              </p>
+              {tecnico.dni && (
+                <div className="flex gap-2 text-sm">
+                  <span className="font-medium text-gray-500 w-28 flex-shrink-0">
+                    DNI:
+                  </span>
+                  <span className="text-gray-700 font-mono">{tecnico.dni}</span>
+                </div>
+              )}
+              <div className="grid grid-cols-2 gap-3">
+                {tecnico.foto_dni_url && (
+                  <div>
+                    <p className="text-xs text-gray-400 mb-1">Foto DNI</p>
+                    <a
+                      href={tecnico.foto_dni_url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="block w-full h-20 bg-gray-200 rounded-lg hover:opacity-80 transition"
+                    >
+                      <img
+                        src={tecnico.foto_dni_url}
+                        alt="DNI"
+                        className="w-full h-full object-cover"
+                      />
+                    </a>
+                  </div>
+                )}
+                {tecnico.foto_selfie_url && (
+                  <div>
+                    <p className="text-xs text-gray-400 mb-1">Selfie con DNI</p>
+                    <a
+                      href={tecnico.foto_selfie_url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="block w-full h-20 bg-gray-200 rounded-lg hover:opacity-80 transition"
+                    >
+                      <img
+                        src={tecnico.foto_selfie_url}
+                        alt="Selfie"
+                        className="w-full h-full object-cover"
+                      />
+                    </a>
+                  </div>
+                )}
+              </div>
+              {tecnico.notas_verificacion && (
+                <div className="text-xs text-gray-500">
+                  <span className="font-medium">Notas: </span>
+                  {tecnico.notas_verificacion}
+                </div>
+              )}
+            </div>
+          )}
+
           {/* Registro */}
           <p className="text-xs text-gray-400">
             Registrado el{" "}
-            {new Date(tecnico.creado_en).toLocaleDateString("es-PE", {
+            {new Date(tecnico.creado_en ?? "").toLocaleDateString("es-PE", {
               day: "numeric",
               month: "long",
               year: "numeric",
@@ -263,18 +254,50 @@ function TecnicoModal({ tecnico, onClose }) {
   );
 }
 
+// ── Tipos ────────────────────────────────────────────────────
+
+type TecnicoRow = {
+  id: string;
+  estado_verificacion: string;
+  es_premium: boolean | null;
+  premium_hasta: string | null;
+  calificacion_promedio: number | null;
+  total_resenas: number | null;
+  total_trabajos: number | null;
+  tarifa_hora: number | null;
+  descripcion: string | null;
+  experiencia_anos: number | null;
+  radio_servicio_km: number | null;
+  dni: string | null;
+  foto_dni_url: string | null;
+  foto_selfie_url: string | null;
+  notas_verificacion: string | null;
+  creado_en: string | null;
+  profiles: {
+    id: string;
+    nombre: string | null;
+    apellido: string | null;
+    email: string | null;
+    telefono: string | null;
+    ciudad: string | null;
+    avatar_url: string | null;
+    activo: boolean | null;
+  } | null;
+  tecnico_categorias: { categoria_id: string; categorias: { nombre: string } | null }[];
+};
+
 // ── Página principal ─────────────────────────────────────────
 
 export default function AdminTecnicos() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [tecnicos, setTecnicos] = useState([]);
+  const [tecnicos, setTecnicos] = useState<TecnicoRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [filtroEstado, setFiltroEstado] = useState(
     searchParams.get("filtro") || "",
   );
-  const [tecnicoDetalle, setTecnicoDetalle] = useState(null);
-  const [procesando, setProcesando] = useState(null);
+  const [tecnicoDetalle, setTecnicoDetalle] = useState<TecnicoRow | null>(null);
+  const [procesando, setProcesando] = useState<string | null>(null);
 
   const fetchTecnicos = useCallback(async () => {
     setLoading(true);
@@ -301,7 +324,7 @@ export default function AdminTecnicos() {
               .includes(search.toLowerCase()),
           )
         : data;
-      setTecnicos(filtered);
+      setTecnicos(filtered as unknown as TecnicoRow[]);
     }
     setLoading(false);
   }, [filtroEstado, search]);
@@ -310,7 +333,7 @@ export default function AdminTecnicos() {
     fetchTecnicos();
   }, [fetchTecnicos]);
 
-  const handleAccion = async (accion, tecnico) => {
+  const handleAccion = async (accion: string, tecnico: TecnicoRow) => {
     if (accion === "ver") {
       setTecnicoDetalle(tecnico);
       return;
@@ -328,7 +351,7 @@ export default function AdminTecnicos() {
 
     setProcesando(tecnico.id);
     try {
-      const updates = {};
+      const updates: Record<string, unknown> = {};
 
       if (accion === "aprobar") updates.estado_verificacion = "aprobado";
       if (accion === "rechazar") updates.estado_verificacion = "rechazado";
@@ -367,19 +390,18 @@ export default function AdminTecnicos() {
         });
       }
 
-      toast.success(
-        {
-          aprobar: "✅ Técnico aprobado",
-          rechazar: "❌ Técnico rechazado",
-          suspender: "⛔ Cuenta suspendida",
-          premium: "⭐ Premium activado",
-          sin_premium: "Premium removido",
-        }[accion],
-      );
+      const msgs: Record<string, string> = {
+        aprobar: "✅ Técnico aprobado",
+        rechazar: "❌ Técnico rechazado",
+        suspender: "⛔ Cuenta suspendida",
+        premium: "⭐ Premium activado",
+        sin_premium: "Premium removido",
+      };
+      toast.success(msgs[accion] ?? "Acción realizada");
 
       fetchTecnicos();
     } catch (err) {
-      toast.error("Error: " + err.message);
+      toast.error("Error: " + (err instanceof Error ? err.message : String(err)));
     } finally {
       setProcesando(null);
     }
@@ -392,6 +414,101 @@ export default function AdminTecnicos() {
       .length,
     premium: tecnicos.filter((t) => t.es_premium).length,
   };
+
+  const tecnicosColumns: Column<(typeof tecnicos)[0]>[] = [
+    {
+      key: "tecnico",
+      header: "Técnico",
+      cell: (t) => (
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-orange-100 flex items-center justify-center text-orange-600 font-semibold text-sm flex-shrink-0">
+            {t.profiles?.nombre?.[0]?.toUpperCase()}
+          </div>
+          <div>
+            <p className="text-sm font-semibold text-gray-800 flex items-center gap-1.5">
+              {t.profiles?.nombre} {t.profiles?.apellido}
+              {t.es_premium && (
+                <Crown size={12} className="text-amber-500" fill="currentColor" />
+              )}
+            </p>
+            <p className="text-xs text-gray-400">{t.profiles?.email}</p>
+          </div>
+        </div>
+      ),
+    },
+    {
+      key: "ciudad",
+      header: "Ciudad",
+      cell: (t) => (
+        <div className="flex items-center gap-1 text-sm text-gray-600">
+          <MapPin size={13} className="text-gray-300 flex-shrink-0" />
+          {t.profiles?.ciudad || "—"}
+        </div>
+      ),
+    },
+    {
+      key: "categorias",
+      header: "Categorías",
+      cell: (t) => (
+        <div className="flex flex-wrap gap-1 max-w-[160px]">
+          {t.tecnico_categorias?.slice(0, 2).map((tc) => (
+            <span key={tc.categoria_id} className="px-2 py-0.5 bg-gray-100 text-gray-600 rounded-lg text-xs">
+              {tc.categorias?.nombre}
+            </span>
+          ))}
+          {t.tecnico_categorias?.length > 2 && (
+            <span className="px-2 py-0.5 bg-gray-100 text-gray-500 rounded-lg text-xs">
+              +{t.tecnico_categorias.length - 2}
+            </span>
+          )}
+          {!t.tecnico_categorias?.length && (
+            <span className="text-xs text-gray-300">Sin categoría</span>
+          )}
+        </div>
+      ),
+    },
+    {
+      key: "calificacion",
+      header: "Calificación",
+      cell: (t) => (
+        <div className="flex items-center gap-1">
+          <Star size={14} className="text-amber-400" fill="currentColor" />
+          <span className="text-sm font-medium text-gray-700">
+            {t.calificacion_promedio?.toFixed(1) || "—"}
+          </span>
+          <span className="text-xs text-gray-400">({t.total_resenas || 0})</span>
+        </div>
+      ),
+    },
+    {
+      key: "trabajos",
+      header: "Trabajos",
+      cell: (t) => (
+        <span className="text-sm font-medium text-gray-700">{t.total_trabajos || 0}</span>
+      ),
+    },
+    {
+      key: "estado",
+      header: "Estado",
+      cell: (t) => <EstadoBadge estado={t.estado_verificacion} />,
+    },
+    {
+      key: "acciones",
+      header: "",
+      cell: (t) => (
+        <ActionMenu
+          items={[
+            { label: "Ver detalle", icon: Eye, onClick: () => handleAccion("ver", t) },
+            { label: "Aprobar", icon: CheckCircle, onClick: () => handleAccion("aprobar", t), show: t.estado_verificacion !== "aprobado" },
+            { label: "Rechazar", icon: XCircle, variant: "danger", onClick: () => handleAccion("rechazar", t), show: t.estado_verificacion !== "rechazado" },
+            { label: "Suspender", icon: Ban, variant: "danger", onClick: () => handleAccion("suspender", t), show: t.estado_verificacion !== "suspendido" },
+            { label: "Dar Premium", icon: Crown, onClick: () => handleAccion("premium", t), show: !t.es_premium },
+            { label: "Quitar Premium", icon: Crown, onClick: () => handleAccion("sin_premium", t), show: !!t.es_premium },
+          ]}
+        />
+      ),
+    },
+  ];
 
   return (
     <div className="max-w-7xl space-y-6">
@@ -481,145 +598,19 @@ export default function AdminTecnicos() {
       </div>
 
       {/* Tabla */}
-      <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
-        {loading ? (
-          <div className="flex items-center justify-center h-48">
-            <div className="w-8 h-8 border-4 border-orange-500 border-t-transparent rounded-full animate-spin" />
-          </div>
-        ) : tecnicos.length === 0 ? (
-          <div className="text-center py-16 text-gray-400">
-            <Wrench size={40} className="mx-auto mb-3 opacity-30" />
-            <p className="font-medium">No se encontraron técnicos</p>
-            <p className="text-sm">Prueba cambiando los filtros</p>
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-gray-100 bg-gray-50">
-                  {[
-                    "Técnico",
-                    "Ciudad",
-                    "Categorías",
-                    "Calificación",
-                    "Trabajos",
-                    "Estado",
-                    "",
-                  ].map((h) => (
-                    <th
-                      key={h}
-                      className="px-5 py-3.5 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider"
-                    >
-                      {h}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-50">
-                {tecnicos.map((t) => (
-                  <tr
-                    key={t.id}
-                    className={`hover:bg-gray-50 transition ${procesando === t.id ? "opacity-50" : ""}`}
-                  >
-                    {/* Técnico */}
-                    <td className="px-5 py-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-xl bg-orange-100 flex items-center justify-center text-orange-600 font-semibold text-sm flex-shrink-0">
-                          {t.profiles?.nombre?.[0]?.toUpperCase()}
-                        </div>
-                        <div>
-                          <p className="text-sm font-semibold text-gray-800 flex items-center gap-1.5">
-                            {t.profiles?.nombre} {t.profiles?.apellido}
-                            {t.es_premium && (
-                              <Crown
-                                size={12}
-                                className="text-amber-500"
-                                fill="currentColor"
-                              />
-                            )}
-                          </p>
-                          <p className="text-xs text-gray-400">
-                            {t.profiles?.email}
-                          </p>
-                        </div>
-                      </div>
-                    </td>
-
-                    {/* Ciudad */}
-                    <td className="px-5 py-4">
-                      <div className="flex items-center gap-1 text-sm text-gray-600">
-                        <MapPin
-                          size={13}
-                          className="text-gray-300 flex-shrink-0"
-                        />
-                        {t.profiles?.ciudad || "—"}
-                      </div>
-                    </td>
-
-                    {/* Categorías */}
-                    <td className="px-5 py-4">
-                      <div className="flex flex-wrap gap-1 max-w-[160px]">
-                        {t.tecnico_categorias?.slice(0, 2).map((tc) => (
-                          <span
-                            key={tc.categoria_id}
-                            className="px-2 py-0.5 bg-gray-100 text-gray-600 rounded-lg text-xs"
-                          >
-                            {tc.categorias?.nombre}
-                          </span>
-                        ))}
-                        {t.tecnico_categorias?.length > 2 && (
-                          <span className="px-2 py-0.5 bg-gray-100 text-gray-500 rounded-lg text-xs">
-                            +{t.tecnico_categorias.length - 2}
-                          </span>
-                        )}
-                        {!t.tecnico_categorias?.length && (
-                          <span className="text-xs text-gray-300">
-                            Sin categoría
-                          </span>
-                        )}
-                      </div>
-                    </td>
-
-                    {/* Calificación */}
-                    <td className="px-5 py-4">
-                      <div className="flex items-center gap-1">
-                        <Star
-                          size={14}
-                          className="text-amber-400"
-                          fill="currentColor"
-                        />
-                        <span className="text-sm font-medium text-gray-700">
-                          {t.calificacion_promedio?.toFixed(1) || "—"}
-                        </span>
-                        <span className="text-xs text-gray-400">
-                          ({t.total_resenas || 0})
-                        </span>
-                      </div>
-                    </td>
-
-                    {/* Trabajos */}
-                    <td className="px-5 py-4">
-                      <span className="text-sm font-medium text-gray-700">
-                        {t.total_trabajos || 0}
-                      </span>
-                    </td>
-
-                    {/* Estado */}
-                    <td className="px-5 py-4">
-                      <EstadoBadge estado={t.estado_verificacion} />
-                    </td>
-
-                    {/* Acciones */}
-                    <td className="px-5 py-4">
-                      <AccionesMenu tecnico={t} onAction={handleAccion} />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
+      <DataTable
+        columns={tecnicosColumns}
+        data={tecnicos}
+        getRowKey={(t) => t.id}
+        loading={loading}
+        scrollX
+        empty={{
+          icon: <Wrench size={40} className="mx-auto opacity-30" />,
+          title: "No se encontraron técnicos",
+          subtitle: "Prueba cambiando los filtros",
+        }}
+        rowClassName={(t) => (procesando === t.id ? "opacity-50" : "")}
+      />
 
       {/* Modal de detalle */}
       {tecnicoDetalle && (

@@ -72,7 +72,7 @@ export default function AdminCategorias() {
             </div>
 
             {/* Lista */}
-            <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+            <div className="bg-white rounded-2xl border border-gray-100">
                 <table className="w-full">
                     <thead className="border-b border-gray-100 bg-gray-50">
                         <tr>{['Nombre', 'Descripción', 'Icono', ''].map(h => (

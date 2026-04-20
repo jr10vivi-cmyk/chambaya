@@ -798,7 +798,7 @@ function Categorias() {
             <Link
               to="/registro"
               key={nombre}
-              className="group relative overflow-hidden bg-gray-50 hover:bg-white rounded-2xl p-6 border border-gray-100 hover:border-orange-200 hover:shadow-xl hover:shadow-orange-50 transition-all duration-300 cursor-pointer"
+              className="group relative bg-gray-50 hover:bg-white rounded-2xl p-6 border border-gray-100 hover:border-orange-200 hover:shadow-xl hover:shadow-orange-50 transition-all duration-300 cursor-pointer"
               style={{
                 opacity: visible ? 1 : 0,
                 transform: visible ? "translateY(0)" : "translateY(30px)",
@@ -1009,11 +1009,7 @@ function Testimonios() {
 function ParaTecnicos() {
   const [ref, visible] = useInView();
   return (
-    <section
-      id="tecnicos"
-      ref={ref}
-      className="py-20 bg-gray-900 relative overflow-hidden"
-    >
+    <section id="tecnicos" ref={ref} className="py-20 bg-gray-900 relative ">
       {/* Fondo decorativo */}
       <div
         className="absolute inset-0 opacity-10"

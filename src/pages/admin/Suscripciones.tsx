@@ -59,7 +59,7 @@ export default function AdminSuscripciones() {
       </div>
 
       {/* Tabla */}
-      <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+      <div className="bg-white rounded-2xl border border-gray-100">
         {loading ? (
           <div className="flex justify-center items-center h-40">
             <div className="w-8 h-8 border-4 border-orange-500 border-t-transparent rounded-full animate-spin" />

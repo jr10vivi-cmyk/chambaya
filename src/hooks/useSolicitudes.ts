@@ -6,11 +6,12 @@ import type { SolicitudConRelaciones, EstadoSolicitud, UserRole } from '../types
 const TRANSICIONES: Record<string, Record<string, EstadoSolicitud[]>> = {
   tecnico: {
     pendiente: ['aceptado', 'cancelado'],
-    aceptado: ['en_proceso', 'cancelado'],
+    en_custodia: ['en_proceso', 'cancelado'],
     en_proceso: ['completado'],
   },
   cliente: {
     pendiente: ['cancelado'],
+    aceptado: ['en_custodia', 'cancelado'],
     completado: ['completado'],
   }
 }

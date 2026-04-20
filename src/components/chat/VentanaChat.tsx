@@ -3,9 +3,10 @@ import { useChat } from '../../hooks/useChat'
 import { useAuth } from '../../context/AuthContext'
 import BurbujaMensaje from './BurbujaMensaje'
 import InputMensaje from './InputMensaje'
+import PanelCotizacion from './PanelCotizacion'
 import {
     ArrowLeft,
-    CheckCircle, Clock, Wrench, DollarSign, Shield, MoreVertical
+    CheckCircle, Clock, Wrench, DollarSign, Shield, MoreVertical, Lock
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
@@ -16,11 +17,12 @@ interface EstadoCfgEntry {
 }
 
 const ESTADO_CFG: Record<string, EstadoCfgEntry> = {
-    pendiente: { color: 'bg-amber-100 text-amber-700', label: 'Pendiente', icon: Clock },
-    aceptado: { color: 'bg-blue-100 text-blue-700', label: 'Aceptado', icon: CheckCircle },
-    en_proceso: { color: 'bg-purple-100 text-purple-700', label: 'En proceso', icon: Wrench },
-    completado: { color: 'bg-green-100 text-green-700', label: 'Completado', icon: CheckCircle },
-    cancelado: { color: 'bg-gray-100 text-gray-600', label: 'Cancelado', icon: MoreVertical },
+    pendiente:   { color: 'bg-amber-100 text-amber-700',   label: 'Pendiente',         icon: Clock },
+    aceptado:    { color: 'bg-blue-100 text-blue-700',     label: 'Aceptado',           icon: CheckCircle },
+    en_custodia: { color: 'bg-emerald-100 text-emerald-700', label: 'Pago en custodia', icon: Lock },
+    en_proceso:  { color: 'bg-purple-100 text-purple-700', label: 'En proceso',         icon: Wrench },
+    completado:  { color: 'bg-green-100 text-green-700',   label: 'Completado',         icon: CheckCircle },
+    cancelado:   { color: 'bg-gray-100 text-gray-600',     label: 'Cancelado',          icon: MoreVertical },
 }
 
 interface VentanaChatProps {
@@ -179,6 +181,16 @@ export default function VentanaChat({ conversacionId, onVolver }: VentanaChatPro
                 {/* Indicador "escribiendo" placeholder */}
                 <div ref={bottomRef} />
             </div>
+
+            {/* -- Panel de cotizaciones (visible cuando hay solicitud activa) -- */}
+            {solicitud && conv.solicitudes?.id && !['cancelado','completado'].includes(solicitud.estado) && (
+                <PanelCotizacion
+                    solicitudId={conv.solicitudes.id}
+                    clienteId={conv.cliente_id}
+                    estadoSolicitud={solicitud.estado}
+                    precioAcordado={solicitud.precio_acordado ?? null}
+                />
+            )}
 
             {/* -- Input -- */}
             <InputMensaje

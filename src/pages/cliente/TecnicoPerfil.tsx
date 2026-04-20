@@ -145,7 +145,7 @@ export default function ClienteTecnicoPerfil() {
 
       {/* Hero card */}
       <div
-        className={`bg-white rounded-2xl overflow-hidden border
+        className={`bg-white rounded-2xl border
         ${tecnico.es_premium ? "border-amber-300 ring-1 ring-amber-200" : "border-gray-100"}`}
       >
         {tecnico.es_premium && (

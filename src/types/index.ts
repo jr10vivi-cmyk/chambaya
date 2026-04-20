@@ -20,7 +20,7 @@ export type TecnicoFoto = TablesMap['tecnico_fotos']['Row']
 
 // ── Enums de dominio ──
 export type UserRole = 'admin' | 'tecnico' | 'cliente'
-export type EstadoSolicitud = 'pendiente' | 'aceptado' | 'en_proceso' | 'completado' | 'cancelado'
+export type EstadoSolicitud = 'pendiente' | 'aceptado' | 'en_custodia' | 'en_proceso' | 'completado' | 'cancelado'
 export type EstadoVerificacion = 'pendiente' | 'aprobado' | 'rechazado' | 'suspendido'
 
 // ── Auth Context ──
@@ -46,6 +46,7 @@ export interface SignUpParams {
   nombre: string
   apellido: string
   role: UserRole
+  codigoRef?: string
 }
 
 export interface SignInParams {
@@ -62,6 +63,7 @@ export interface SolicitudConRelaciones extends Solicitud {
   }) | null
   categorias?: Pick<Categoria, 'nombre' | 'icono'> | null
   resenas?: Pick<Resena, 'id' | 'calificacion' | 'comentario'>[] | null
+  tiene_disputa?: boolean | null
 }
 
 // ── Técnico con datos de búsqueda ──

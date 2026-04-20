@@ -169,7 +169,7 @@ export default function ClienteBuscar() {
           </button>
 
           {/* Toggle vista (solo móvil/tablet) */}
-          <div className="flex border border-gray-200 rounded-xl overflow-hidden lg:hidden">
+          <div className="flex border border-gray-200 rounded-xl lg:hidden">
             <button
               onClick={() => setVista("mapa")}
               className={`px-3 py-2.5 text-sm transition ${vista === "mapa" ? "bg-orange-500 text-white" : "text-gray-500 hover:bg-gray-50"}`}
@@ -265,7 +265,7 @@ export default function ClienteBuscar() {
       </div>
 
       {/* ── Contenido: mapa + lista ── */}
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1 ">
         {/* Lista de técnicos */}
         <div
           className={`flex-shrink-0 overflow-y-auto bg-gray-50

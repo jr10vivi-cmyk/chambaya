@@ -24,6 +24,9 @@ const AdminIngresos = lazy(() => import("./pages/admin/Ingresos"));
 const AdminPublicidad = lazy(() => import("./pages/admin/Publicidad"));
 const AdminSuscripciones = lazy(() => import("./pages/admin/Suscripciones"));
 const AdminReportes = lazy(() => import("./pages/admin/Reportes"));
+const AdminDisputas = lazy(() => import("./pages/admin/Disputas"));
+const Terminos = lazy(() => import("./pages/Terminos"));
+const Privacidad = lazy(() => import("./pages/Privacidad"));
 
 // Técnico páginas
 const TecnicoDashboard = lazy(() => import("./pages/tecnico/Dashboard"));
@@ -92,6 +95,7 @@ export default function App() {
             <Route path="publicidad" element={<AdminPublicidad />} />
             <Route path="suscripciones" element={<AdminSuscripciones />} />
             <Route path="reportes" element={<AdminReportes />} />
+            <Route path="disputas" element={<AdminDisputas />} />
           </Route>
 
           {/* ── TÉCNICO ── */}
@@ -128,6 +132,10 @@ export default function App() {
             <Route path="historial" element={<ClienteHistorial />} />
             <Route path="chat/:conversacionId?" element={<ClienteChat />} />
           </Route>
+
+          {/* ── PÚBLICAS ADICIONALES ── */}
+          <Route path="/terminos" element={<Terminos />} />
+          <Route path="/privacidad" element={<Privacidad />} />
 
           {/* Fallbacks */}
           <Route

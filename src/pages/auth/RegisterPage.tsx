@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import toast from "react-hot-toast";
-import { Wrench, User, Briefcase } from "lucide-react";
+import { Wrench, User, Briefcase, Gift } from "lucide-react";
 import type { UserRole } from "../../types";
 
 interface RegisterForm {
@@ -11,6 +11,7 @@ interface RegisterForm {
   email: string;
   password: string;
   confirmar: string;
+  codigoRef: string;
   [key: string]: string;
 }
 
@@ -19,12 +20,14 @@ export default function RegisterPage(): JSX.Element {
   const [step, setStep] = useState<number>(1); // 1: elegir rol, 2: datos
   const [role, setRole] = useState<UserRole | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [aceptaTerminos, setAceptaTerminos] = useState(false);
   const [form, setForm] = useState<RegisterForm>({
     nombre: "",
     apellido: "",
     email: "",
     password: "",
     confirmar: "",
+    codigoRef: "",
   });
 
   const handleSubmit = async (
@@ -39,9 +42,13 @@ export default function RegisterPage(): JSX.Element {
       toast.error("La contraseña debe tener al menos 6 caracteres");
       return;
     }
+    if (!aceptaTerminos) {
+      toast.error("Debes aceptar los Términos y Condiciones");
+      return;
+    }
     setLoading(true);
     try {
-      await signUp({ ...form, role });
+      await signUp({ ...form, role: role!, codigoRef: form.codigoRef.trim() || undefined });
       toast.success("¡Cuenta creada! Revisa tu correo para confirmar.");
     } catch (err: unknown) {
       const message =
@@ -172,9 +179,51 @@ export default function RegisterPage(): JSX.Element {
                 </div>
               ))}
 
+              {/* Código de referido (opcional) */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Código de referido (opcional)
+                </label>
+                <div className="relative">
+                  <Gift size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                  <input
+                    type="text"
+                    value={form.codigoRef}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      setForm((p) => ({ ...p, codigoRef: e.target.value.toUpperCase() }))
+                    }
+                    maxLength={8}
+                    placeholder="Ej: AB12CD34"
+                    className="w-full pl-9 pr-3 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-400 transition text-sm uppercase"
+                  />
+                </div>
+              </div>
+
+              {/* Términos */}
+              <div className="flex items-start gap-2.5">
+                <input
+                  type="checkbox"
+                  id="terminos"
+                  checked={aceptaTerminos}
+                  onChange={(e) => setAceptaTerminos(e.target.checked)}
+                  className="mt-0.5 w-4 h-4 accent-orange-500 cursor-pointer flex-shrink-0"
+                />
+                <label htmlFor="terminos" className="text-xs text-gray-500 leading-relaxed cursor-pointer">
+                  He leído y acepto los{" "}
+                  <Link to="/terminos" target="_blank" className="text-orange-500 hover:text-orange-600 font-medium underline">
+                    Términos y Condiciones
+                  </Link>{" "}
+                  y la{" "}
+                  <Link to="/privacidad" target="_blank" className="text-orange-500 hover:text-orange-600 font-medium underline">
+                    Política de Privacidad
+                  </Link>{" "}
+                  de ChambaYA.
+                </label>
+              </div>
+
               <button
                 type="submit"
-                disabled={loading}
+                disabled={loading || !aceptaTerminos}
                 className="w-full bg-orange-500 hover:bg-orange-600 disabled:bg-orange-300 text-white font-semibold py-3 rounded-xl transition flex items-center justify-center gap-2 mt-2"
               >
                 {loading ? (

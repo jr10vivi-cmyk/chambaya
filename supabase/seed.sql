@@ -6,20 +6,21 @@
 
 -- Limpiar datos existentes (en orden por FK)
 DELETE FROM auth.identities   WHERE provider_id IN ('admin@chambaya.pe','carlos.quispe@tecnico.com','miguel.torres@tecnico.com','jose.mamani@tecnico.com','luis.vargas@tecnico.com','pedro.flores@tecnico.com','ana.garcia@cliente.com','maria.lopez@cliente.com','roberto.silva@cliente.com');
+DELETE FROM auth.identities   WHERE provider_id IN ('raul.huaman@tecnico.com');
 DELETE FROM mensajes          WHERE conversacion_id IN (SELECT id FROM conversaciones WHERE cliente_id IN ('00000000-0000-0000-0000-000000000021','00000000-0000-0000-0000-000000000022','00000000-0000-0000-0000-000000000023'));
 DELETE FROM conversaciones    WHERE cliente_id IN ('00000000-0000-0000-0000-000000000021','00000000-0000-0000-0000-000000000022','00000000-0000-0000-0000-000000000023');
 DELETE FROM resenas           WHERE cliente_id IN ('00000000-0000-0000-0000-000000000021','00000000-0000-0000-0000-000000000022','00000000-0000-0000-0000-000000000023');
 DELETE FROM pagos             WHERE cliente_id IN ('00000000-0000-0000-0000-000000000021','00000000-0000-0000-0000-000000000022','00000000-0000-0000-0000-000000000023');
 DELETE FROM solicitudes       WHERE cliente_id IN ('00000000-0000-0000-0000-000000000021','00000000-0000-0000-0000-000000000022','00000000-0000-0000-0000-000000000023');
 DELETE FROM suscripciones     WHERE tecnico_id IN ('00000000-0000-0000-0000-000000000011','00000000-0000-0000-0000-000000000012');
-DELETE FROM saldo_tecnicos    WHERE tecnico_id IN ('00000000-0000-0000-0000-000000000011','00000000-0000-0000-0000-000000000012','00000000-0000-0000-0000-000000000013','00000000-0000-0000-0000-000000000014','00000000-0000-0000-0000-000000000015');
-DELETE FROM tecnico_categorias WHERE tecnico_id IN ('00000000-0000-0000-0000-000000000011','00000000-0000-0000-0000-000000000012','00000000-0000-0000-0000-000000000013','00000000-0000-0000-0000-000000000014','00000000-0000-0000-0000-000000000015');
-DELETE FROM tecnicos          WHERE id IN ('00000000-0000-0000-0000-000000000011','00000000-0000-0000-0000-000000000012','00000000-0000-0000-0000-000000000013','00000000-0000-0000-0000-000000000014','00000000-0000-0000-0000-000000000015');
+DELETE FROM saldo_tecnicos    WHERE tecnico_id IN ('00000000-0000-0000-0000-000000000011','00000000-0000-0000-0000-000000000012','00000000-0000-0000-0000-000000000013','00000000-0000-0000-0000-000000000014','00000000-0000-0000-0000-000000000015','00000000-0000-0000-0000-000000000016');
+DELETE FROM tecnico_categorias WHERE tecnico_id IN ('00000000-0000-0000-0000-000000000011','00000000-0000-0000-0000-000000000012','00000000-0000-0000-0000-000000000013','00000000-0000-0000-0000-000000000014','00000000-0000-0000-0000-000000000015','00000000-0000-0000-0000-000000000016');
+DELETE FROM tecnicos          WHERE id IN ('00000000-0000-0000-0000-000000000011','00000000-0000-0000-0000-000000000012','00000000-0000-0000-0000-000000000013','00000000-0000-0000-0000-000000000014','00000000-0000-0000-0000-000000000015','00000000-0000-0000-0000-000000000016');
 DELETE FROM publicidades      WHERE id IN (SELECT id FROM publicidades WHERE titulo LIKE '[SEED]%');
 DELETE FROM ingresos_plataforma WHERE descripcion LIKE '[SEED]%';
-DELETE FROM profiles          WHERE id IN ('00000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000000011','00000000-0000-0000-0000-000000000012','00000000-0000-0000-0000-000000000013','00000000-0000-0000-0000-000000000014','00000000-0000-0000-0000-000000000015','00000000-0000-0000-0000-000000000021','00000000-0000-0000-0000-000000000022','00000000-0000-0000-0000-000000000023');
-DELETE FROM auth.users        WHERE id IN ('00000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000000011','00000000-0000-0000-0000-000000000012','00000000-0000-0000-0000-000000000013','00000000-0000-0000-0000-000000000014','00000000-0000-0000-0000-000000000015','00000000-0000-0000-0000-000000000021','00000000-0000-0000-0000-000000000022','00000000-0000-0000-0000-000000000023');
-DELETE FROM categorias        WHERE id IN ('00000000-0000-0000-0000-000000000031','00000000-0000-0000-0000-000000000032','00000000-0000-0000-0000-000000000033','00000000-0000-0000-0000-000000000034','00000000-0000-0000-0000-000000000035','00000000-0000-0000-0000-000000000036','00000000-0000-0000-0000-000000000037','00000000-0000-0000-0000-000000000038');
+DELETE FROM profiles          WHERE id IN ('00000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000000011','00000000-0000-0000-0000-000000000012','00000000-0000-0000-0000-000000000013','00000000-0000-0000-0000-000000000014','00000000-0000-0000-0000-000000000015','00000000-0000-0000-0000-000000000016','00000000-0000-0000-0000-000000000021','00000000-0000-0000-0000-000000000022','00000000-0000-0000-0000-000000000023');
+DELETE FROM auth.users        WHERE id IN ('00000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000000011','00000000-0000-0000-0000-000000000012','00000000-0000-0000-0000-000000000013','00000000-0000-0000-0000-000000000014','00000000-0000-0000-0000-000000000015','00000000-0000-0000-0000-000000000016','00000000-0000-0000-0000-000000000021','00000000-0000-0000-0000-000000000022','00000000-0000-0000-0000-000000000023');
+DELETE FROM categorias        WHERE id IN ('00000000-0000-0000-0000-000000000031','00000000-0000-0000-0000-000000000032','00000000-0000-0000-0000-000000000033','00000000-0000-0000-0000-000000000034','00000000-0000-0000-0000-000000000035','00000000-0000-0000-0000-000000000036','00000000-0000-0000-0000-000000000037','00000000-0000-0000-0000-000000000038','00000000-0000-0000-0000-000000000039');
 
 -- =============================================================
 -- AUTH USERS  (contraseña: Test1234!)
@@ -75,6 +76,13 @@ INSERT INTO auth.users (
  '{"nombre":"Pedro","apellido":"Flores","role":"tecnico"}',
  false,'','','',''),
 
+('00000000-0000-0000-0000-000000000000','00000000-0000-0000-0000-000000000016','authenticated','authenticated',
+ 'raul.huaman@tecnico.com', crypt('Test1234!', gen_salt('bf')),
+ now(), now(), now(),
+ '{"provider":"email","providers":["email"]}',
+ '{"nombre":"Raúl","apellido":"Huamán","role":"tecnico"}',
+ false,'','','',''),
+
 -- Clientes
 ('00000000-0000-0000-0000-000000000000','00000000-0000-0000-0000-000000000021','authenticated','authenticated',
  'ana.garcia@cliente.com', crypt('Test1234!', gen_salt('bf')),
@@ -109,9 +117,11 @@ VALUES
 ('jose.mamani@tecnico.com',  '00000000-0000-0000-0000-000000000013', '{"sub":"00000000-0000-0000-0000-000000000013","email":"jose.mamani@tecnico.com"}',  'email', now(), now(), now(), gen_random_uuid()),
 ('luis.vargas@tecnico.com',  '00000000-0000-0000-0000-000000000014', '{"sub":"00000000-0000-0000-0000-000000000014","email":"luis.vargas@tecnico.com"}',  'email', now(), now(), now(), gen_random_uuid()),
 ('pedro.flores@tecnico.com', '00000000-0000-0000-0000-000000000015', '{"sub":"00000000-0000-0000-0000-000000000015","email":"pedro.flores@tecnico.com"}', 'email', now(), now(), now(), gen_random_uuid()),
+('raul.huaman@tecnico.com',  '00000000-0000-0000-0000-000000000016', '{"sub":"00000000-0000-0000-0000-000000000016","email":"raul.huaman@tecnico.com"}',   'email', now(), now(), now(), gen_random_uuid()),
 ('ana.garcia@cliente.com',   '00000000-0000-0000-0000-000000000021', '{"sub":"00000000-0000-0000-0000-000000000021","email":"ana.garcia@cliente.com"}',   'email', now(), now(), now(), gen_random_uuid()),
 ('maria.lopez@cliente.com',  '00000000-0000-0000-0000-000000000022', '{"sub":"00000000-0000-0000-0000-000000000022","email":"maria.lopez@cliente.com"}',  'email', now(), now(), now(), gen_random_uuid()),
-('roberto.silva@cliente.com','00000000-0000-0000-0000-000000000023', '{"sub":"00000000-0000-0000-0000-000000000023","email":"roberto.silva@cliente.com"}','email', now(), now(), now(), gen_random_uuid());
+('roberto.silva@cliente.com','00000000-0000-0000-0000-000000000023', '{"sub":"00000000-0000-0000-0000-000000000023","email":"roberto.silva@cliente.com"}','email', now(), now(), now(), gen_random_uuid())
+ON CONFLICT DO NOTHING;
 
 -- =============================================================
 -- PROFILES
@@ -119,54 +129,73 @@ VALUES
 
 INSERT INTO profiles (id, email, nombre, apellido, role, telefono, ciudad, departamento, activo, estado_cuenta, creado_en)
 VALUES
-('00000000-0000-0000-0000-000000000001','admin@chambaya.pe',        'Admin',   'ChambaYA','admin',  '999000001','Lima','Lima',true,'activo', now() - interval '90 days'),
-('00000000-0000-0000-0000-000000000011','carlos.quispe@tecnico.com','Carlos',  'Quispe',  'tecnico','987654301','Lima','Lima',true,'activo', now() - interval '80 days'),
-('00000000-0000-0000-0000-000000000012','miguel.torres@tecnico.com','Miguel',  'Torres',  'tecnico','987654302','Lima','Lima',true,'activo', now() - interval '75 days'),
-('00000000-0000-0000-0000-000000000013','jose.mamani@tecnico.com',  'José',    'Mamani',  'tecnico','987654303','Lima','Lima',true,'activo', now() - interval '60 days'),
-('00000000-0000-0000-0000-000000000014','luis.vargas@tecnico.com',  'Luis',    'Vargas',  'tecnico','987654304','Lima','Lima',true,'activo', now() - interval '50 days'),
-('00000000-0000-0000-0000-000000000015','pedro.flores@tecnico.com', 'Pedro',   'Flores',  'tecnico','987654305','Lima','Lima',true,'activo', now() - interval '45 days'),
-('00000000-0000-0000-0000-000000000021','ana.garcia@cliente.com',   'Ana',     'García',  'cliente','987654321','Lima','Lima',true,'activo', now() - interval '70 days'),
-('00000000-0000-0000-0000-000000000022','maria.lopez@cliente.com',  'María',   'López',   'cliente','987654322','Lima','Lima',true,'activo', now() - interval '65 days'),
-('00000000-0000-0000-0000-000000000023','roberto.silva@cliente.com','Roberto', 'Silva',   'cliente','987654323','Lima','Lima',true,'activo', now() - interval '55 days');
+('00000000-0000-0000-0000-000000000001','admin@chambaya.pe',        'Admin',   'ChambaYA','admin',  '999000001','Huamanga','Ayacucho',true,'activo', now() - interval '90 days'),
+('00000000-0000-0000-0000-000000000011','carlos.quispe@tecnico.com','Carlos',  'Quispe',  'tecnico','987654301','Huamanga','Ayacucho',true,'activo', now() - interval '80 days'),
+('00000000-0000-0000-0000-000000000012','miguel.torres@tecnico.com','Miguel',  'Torres',  'tecnico','987654302','Huamanga','Ayacucho',true,'activo', now() - interval '75 days'),
+('00000000-0000-0000-0000-000000000013','jose.mamani@tecnico.com',  'José',    'Mamani',  'tecnico','987654303','Huamanga','Ayacucho',true,'activo', now() - interval '60 days'),
+('00000000-0000-0000-0000-000000000014','luis.vargas@tecnico.com',  'Luis',    'Vargas',  'tecnico','987654304','Huamanga','Ayacucho',true,'activo', now() - interval '50 days'),
+('00000000-0000-0000-0000-000000000015','pedro.flores@tecnico.com', 'Pedro',   'Flores',  'tecnico','987654305','Huamanga','Ayacucho',true,'activo', now() - interval '45 days'),
+('00000000-0000-0000-0000-000000000016','raul.huaman@tecnico.com',  'Raúl',    'Huamán',  'tecnico','987654306','Huamanga','Ayacucho',true,'activo', now() - interval '40 days'),
+('00000000-0000-0000-0000-000000000021','ana.garcia@cliente.com',   'Ana',     'García',  'cliente','987654321','Huamanga','Ayacucho',true,'activo', now() - interval '70 days'),
+('00000000-0000-0000-0000-000000000022','maria.lopez@cliente.com',  'María',   'López',   'cliente','987654322','Huamanga','Ayacucho',true,'activo', now() - interval '65 days'),
+('00000000-0000-0000-0000-000000000023','roberto.silva@cliente.com','Roberto', 'Silva',   'cliente','987654323','Huamanga','Ayacucho',true,'activo', now() - interval '55 days')
+ON CONFLICT (id) DO UPDATE SET
+  email        = EXCLUDED.email,
+  nombre       = EXCLUDED.nombre,
+  apellido     = EXCLUDED.apellido,
+  role         = EXCLUDED.role,
+  telefono     = EXCLUDED.telefono,
+  ciudad       = EXCLUDED.ciudad,
+  departamento = EXCLUDED.departamento,
+  activo       = EXCLUDED.activo,
+  estado_cuenta= EXCLUDED.estado_cuenta;
 
 -- =============================================================
 -- TECNICOS
 -- =============================================================
--- Coordenadas Lima: San Isidro, Miraflores, Surco, Jesús María, San Borja
+-- Coordenadas Huamanga, Ayacucho: Centro Histórico, San Juan Bautista,
+-- Jesús Nazareno, Carmen Alto, Andrés Avelino Cáceres, Belén
 
 INSERT INTO tecnicos (id, descripcion, disponible, estado_verificacion, experiencia_anos,
   calificacion_promedio, total_resenas, total_trabajos, tarifa_hora, tarifa_minima,
   radio_servicio_km, lat, lng, es_premium, premium_hasta, creado_en)
 VALUES
--- Carlos Quispe - Electricista - Premium - San Isidro
+-- Carlos Quispe - Electricista - Premium - Centro Histórico, Huamanga
 ('00000000-0000-0000-0000-000000000011',
- 'Electricista certificado con 8 años de experiencia. Instalaciones residenciales y comerciales, tableros eléctricos, sistema de cámaras.',
- true,'aprobado',8, 4.8,24,31, 80,120, 15, -12.0971,-77.0380, true, now() + interval '60 days',
+ 'Electricista certificado con 8 años de experiencia en Ayacucho. Instalaciones residenciales y comerciales, tableros eléctricos, sistema de cámaras. Atención en Huamanga y distritos.',
+ true,'aprobado',8, 4.8,24,31, 80,120, 15, -13.1600,-74.2236, true, now() + interval '60 days',
  now() - interval '80 days'),
 
--- Miguel Torres - Gasfitero/Plomero - Premium - Miraflores
+-- Miguel Torres - Gasfitero/Plomero - Premium - San Juan Bautista, Huamanga
 ('00000000-0000-0000-0000-000000000012',
- 'Gasfitero con 6 años de experiencia. Reparación de tuberías, instalación de baños completos, detección de filtraciones.',
- true,'aprobado',6, 4.6,18,22, 70,100, 12, -12.1219,-77.0287, true, now() + interval '25 days',
+ 'Gasfitero con 6 años de experiencia en Ayacucho. Reparación de tuberías, instalación de baños completos, detección de filtraciones.',
+ true,'aprobado',6, 4.6,18,22, 70,100, 12, -13.1486,-74.2130, true, now() + interval '25 days',
  now() - interval '75 days'),
 
--- José Mamani - Cerrajero - Surco
+-- José Mamani - Cerrajero - Jesús Nazareno, Huamanga
 ('00000000-0000-0000-0000-000000000013',
- 'Cerrajero profesional, apertura de puertas, cambio de chapa, duplicado de llaves. Atención 24 horas.',
- true,'aprobado',4, 4.5,10,14, 60,80, 10, -12.1559,-76.9819, false, null,
+ 'Cerrajero profesional en Huamanga, apertura de puertas, cambio de chapa, duplicado de llaves. Atención 24 horas.',
+ true,'aprobado',4, 4.5,10,14, 60,80, 10, -13.1740,-74.2067, false, null,
  now() - interval '60 days'),
 
--- Luis Vargas - Pintor - Jesús María
+-- Luis Vargas - Pintor - Carmen Alto, Huamanga
 ('00000000-0000-0000-0000-000000000014',
- 'Pintor con amplia experiencia en pintura de interiores y exteriores. Acabados de calidad, puntual y limpio.',
- true,'pendiente',5, 0,0,0, 50,150, 8, -12.0696,-77.0472, false, null,
+ 'Pintor con amplia experiencia en Ayacucho en pintura de interiores y exteriores. Acabados de calidad, puntual y limpio.',
+ true,'pendiente',5, 0,0,0, 50,150, 8, -13.1305,-74.2217, false, null,
  now() - interval '50 days'),
 
--- Pedro Flores - Carpintero - San Borja
+-- Pedro Flores - Carpintero - Andrés Avelino Cáceres, Huamanga
 ('00000000-0000-0000-0000-000000000015',
- 'Carpintero con especialidad en muebles a medida, puertas, ventanas y reparaciones de madera en general.',
- false,'aprobado',10, 4.3,7,9, 65,90, 10, -12.1043,-76.9970, false, null,
- now() - interval '45 days');
+ 'Carpintero ayacuchano con especialidad en muebles a medida, puertas, ventanas y reparaciones de madera en general.',
+ false,'aprobado',10, 4.3,7,9, 65,90, 10, -13.1634,-74.2010, false, null,
+ now() - interval '45 days'),
+
+-- Raúl Huamán - Albañil - Belén, Huamanga
+('00000000-0000-0000-0000-000000000016',
+ 'Albañil con 7 años de experiencia en construcción y remodelación en Ayacucho. Muros, tarrajeo, pisos, contrapisos y acabados de obra.',
+ true,'aprobado',7, 4.4,6,8, 60,100, 10, -13.1550,-74.2150, false, null,
+ now() - interval '40 days')
+ON CONFLICT (id) DO NOTHING;
 
 -- =============================================================
 -- CATEGORIAS
@@ -181,7 +210,9 @@ VALUES
 ('00000000-0000-0000-0000-000000000035','Carpintería',   'Muebles y trabajos en madera',           '🪚',true),
 ('00000000-0000-0000-0000-000000000036','Limpieza',      'Limpieza del hogar y oficinas',          '🧹',true),
 ('00000000-0000-0000-0000-000000000037','Jardinería',    'Jardines, poda y paisajismo',            '🌿',true),
-('00000000-0000-0000-0000-000000000038','Mudanzas',      'Traslado de muebles y carga',            '📦',true);
+('00000000-0000-0000-0000-000000000038','Mudanzas',      'Traslado de muebles y carga',            '📦',true),
+('00000000-0000-0000-0000-000000000039','Albañilería',   'Construcción, muros, tarrajeo y acabados de obra', '🧱',true)
+ON CONFLICT (id) DO NOTHING;
 
 -- =============================================================
 -- TECNICO_CATEGORIAS
@@ -194,7 +225,9 @@ VALUES
 ('00000000-0000-0000-0000-000000000012','00000000-0000-0000-0000-000000000031'), -- Miguel: Electricidad también
 ('00000000-0000-0000-0000-000000000013','00000000-0000-0000-0000-000000000033'), -- José: Cerrajería
 ('00000000-0000-0000-0000-000000000014','00000000-0000-0000-0000-000000000034'), -- Luis: Pintura
-('00000000-0000-0000-0000-000000000015','00000000-0000-0000-0000-000000000035'); -- Pedro: Carpintería
+('00000000-0000-0000-0000-000000000015','00000000-0000-0000-0000-000000000035'), -- Pedro: Carpintería
+('00000000-0000-0000-0000-000000000016','00000000-0000-0000-0000-000000000039') -- Raúl: Albañilería
+ON CONFLICT DO NOTHING;
 
 -- =============================================================
 -- SOLICITUDES  (varios estados, distribuidas en ~90 días)
@@ -214,7 +247,7 @@ INSERT INTO solicitudes (
 ('00000000-0000-0000-0000-000000000101',
  'Instalación de tomacorrientes en sala',
  'Necesito instalar 4 tomacorrientes nuevos en la sala de estar. El cableado ya está expuesto.',
- 'Av. Javier Prado Este 1234, San Isidro', -12.0971, -77.0380,
+ 'Jr. 28 de Julio 320, Centro Histórico, Huamanga', -13.1600, -74.2236,
  '00000000-0000-0000-0000-000000000021','00000000-0000-0000-0000-000000000011','00000000-0000-0000-0000-000000000031',
  'completado',150,180, 18,162, true,true,
  now()-interval '88 days', now()-interval '87 days', now()-interval '86 days', now()-interval '85 days'),
@@ -223,7 +256,7 @@ INSERT INTO solicitudes (
 ('00000000-0000-0000-0000-000000000102',
  'Revisión de tablero eléctrico',
  'El tablero principal hace ruido extraño y a veces salta el diferencial. Necesito revisión completa.',
- 'Calle Las Begonias 450, San Isidro', -12.0971, -77.0380,
+ 'Jr. Lima 215, Centro Histórico, Huamanga', -13.1590, -74.2244,
  '00000000-0000-0000-0000-000000000022','00000000-0000-0000-0000-000000000011','00000000-0000-0000-0000-000000000031',
  'completado',200,250, 25,225, true,true,
  now()-interval '73 days', now()-interval '72 days', now()-interval '71 days', now()-interval '70 days'),
@@ -232,7 +265,7 @@ INSERT INTO solicitudes (
 ('00000000-0000-0000-0000-000000000103',
  'Instalación de sistema de cámaras',
  'Instalar 4 cámaras IP en exterior del local comercial con cableado oculto.',
- 'Jr. Ucayali 450, Centro de Lima', -12.0464, -77.0428,
+ 'Jr. 9 de Diciembre 180, Centro Histórico, Huamanga', -13.1605, -74.2230,
  '00000000-0000-0000-0000-000000000023','00000000-0000-0000-0000-000000000011','00000000-0000-0000-0000-000000000031',
  'completado',400,450, 45,405, true,true,
  now()-interval '58 days', now()-interval '57 days', now()-interval '56 days', now()-interval '55 days'),
@@ -241,7 +274,7 @@ INSERT INTO solicitudes (
 ('00000000-0000-0000-0000-000000000104',
  'Reparación de fuga de agua en cocina',
  'Hay una fuga debajo del lavatorio de cocina que está mojando el mueble.',
- 'Av. Benavides 1500, Miraflores', -12.1219, -77.0287,
+ 'Jr. San Martín 456, San Juan Bautista, Huamanga', -13.1486, -74.2130,
  '00000000-0000-0000-0000-000000000021','00000000-0000-0000-0000-000000000012','00000000-0000-0000-0000-000000000032',
  'completado',100,120, 12,108, true,true,
  now()-interval '63 days', now()-interval '62 days', now()-interval '61 days', now()-interval '60 days'),
@@ -250,7 +283,7 @@ INSERT INTO solicitudes (
 ('00000000-0000-0000-0000-000000000105',
  'Instalación de calentador de agua',
  'Cambiar el terma antigua por una nueva de 50 litros. Ya tengo el equipo comprado.',
- 'Calle Berlín 450, Miraflores', -12.1219, -77.0287,
+ 'Av. Los Libertadores 890, San Juan Bautista, Huamanga', -13.1486, -74.2130,
  '00000000-0000-0000-0000-000000000023','00000000-0000-0000-0000-000000000012','00000000-0000-0000-0000-000000000032',
  'completado',200,220, 22,198, true,true,
  now()-interval '43 days', now()-interval '42 days', now()-interval '41 days', now()-interval '40 days'),
@@ -259,7 +292,7 @@ INSERT INTO solicitudes (
 ('00000000-0000-0000-0000-000000000106',
  'Cambio de chapa de puerta principal',
  'La chapa de la puerta principal está malograda, no abre con facilidad.',
- 'Av. Caminos del Inca 750, Surco', -12.1559, -76.9819,
+ 'Jr. Sucre 340, Jesús Nazareno, Huamanga', -13.1740, -74.2067,
  '00000000-0000-0000-0000-000000000022','00000000-0000-0000-0000-000000000013','00000000-0000-0000-0000-000000000033',
  'completado',80,90, 9,81, true,true,
  now()-interval '33 days', now()-interval '32 days', now()-interval '31 days', now()-interval '30 days'),
@@ -268,7 +301,7 @@ INSERT INTO solicitudes (
 ('00000000-0000-0000-0000-000000000107',
  'Apertura de puerta de dormitorio',
  'Llave de dormitorio perdida, la puerta tiene seguro doble.',
- 'Jr. Colón 789, Barranco', -12.1475, -77.0219,
+ 'Jr. Asamblea 120, Centro Histórico, Huamanga', -13.1610, -74.2240,
  '00000000-0000-0000-0000-000000000021','00000000-0000-0000-0000-000000000013','00000000-0000-0000-0000-000000000033',
  'completado',60,70, 7,63, true,true,
  now()-interval '16 days', now()-interval '16 days', now()-interval '15 days', now()-interval '15 days'),
@@ -277,7 +310,7 @@ INSERT INTO solicitudes (
 ('00000000-0000-0000-0000-000000000108',
  'Reparación de puerta de madera',
  'La puerta del baño principal tiene la madera hinchada y no cierra bien.',
- 'Av. Guardia Civil 1200, San Borja', -12.1043, -76.9970,
+ 'Av. Cáceres 560, Andrés Avelino Cáceres, Huamanga', -13.1634, -74.2010,
  '00000000-0000-0000-0000-000000000023','00000000-0000-0000-0000-000000000015','00000000-0000-0000-0000-000000000035',
  'completado',120,130, 13,117, true,true,
  now()-interval '23 days', now()-interval '22 days', now()-interval '21 days', now()-interval '20 days'),
@@ -288,7 +321,7 @@ INSERT INTO solicitudes (
 ('00000000-0000-0000-0000-000000000109',
  'Instalación de luces LED en toda la casa',
  'Cambiar todas las luminarias de la casa a tecnología LED. Son 12 puntos de luz.',
- 'Calle Porta 180, Miraflores', -12.1219, -77.0287,
+ 'Jr. Callao 230, Centro Histórico, Huamanga', -13.1595, -74.2242,
  '00000000-0000-0000-0000-000000000022','00000000-0000-0000-0000-000000000011','00000000-0000-0000-0000-000000000031',
  'en_proceso',300,320, null,null, false,false,
  now()-interval '5 days', now()-interval '4 days', now()-interval '3 days', null),
@@ -297,7 +330,7 @@ INSERT INTO solicitudes (
 ('00000000-0000-0000-0000-000000000110',
  'Instalación de ducha eléctrica',
  'Instalar ducha eléctrica en baño de visitas. Necesita conexión a 220V.',
- 'Av. Ricardo Palma 300, Miraflores', -12.1219, -77.0287,
+ 'Jr. 2 de Mayo 445, San Juan Bautista, Huamanga', -13.1486, -74.2130,
  '00000000-0000-0000-0000-000000000021','00000000-0000-0000-0000-000000000012','00000000-0000-0000-0000-000000000032',
  'en_proceso',150,160, null,null, false,false,
  now()-interval '4 days', now()-interval '3 days', now()-interval '2 days', null),
@@ -308,7 +341,7 @@ INSERT INTO solicitudes (
 ('00000000-0000-0000-0000-000000000111',
  'Duplicado de llaves y cambio de seguro',
  'Necesito 3 copias de llaves y cambiar el seguro de la puerta trasera.',
- 'Calle Domingo Orué 145, Surco', -12.1559, -76.9819,
+ 'Jr. Bolívar 178, Jesús Nazareno, Huamanga', -13.1740, -74.2067,
  '00000000-0000-0000-0000-000000000023','00000000-0000-0000-0000-000000000013','00000000-0000-0000-0000-000000000033',
  'aceptado',70,null, null,null, false,false,
  now()-interval '2 days', now()-interval '1 day', null, null),
@@ -319,18 +352,18 @@ INSERT INTO solicitudes (
 ('00000000-0000-0000-0000-000000000112',
  'Pintura de sala y comedor',
  'Pintar sala y comedor, aprox 50 m². Pared en buen estado solo necesita una mano.',
- 'Av. Dos de Mayo 1265, San Isidro', -12.0971, -77.0380,
+ 'Jr. Garcilaso de la Vega 320, Carmen Alto, Huamanga', -13.1305, -74.2217,
  '00000000-0000-0000-0000-000000000022',null,'00000000-0000-0000-0000-000000000034',
  'pendiente',400,null, null,null, false,false,
  now()-interval '1 day', null, null, null),
 
--- S13: Ana → sin asignar (Limpieza)
+-- S13: Ana → sin asignar (Albañilería)
 ('00000000-0000-0000-0000-000000000113',
- 'Limpieza profunda de departamento',
- 'Limpieza profunda de departamento de 3 habitaciones antes de mudanza.',
- 'Av. Arequipa 3500, Miraflores', -12.1219, -77.0287,
- '00000000-0000-0000-0000-000000000021',null,'00000000-0000-0000-0000-000000000036',
- 'pendiente',250,null, null,null, false,false,
+ 'Tarrajeo y enlucido de cuarto nuevo',
+ 'Tengo un cuarto recién construido que necesita tarrajeo de paredes y techo antes de pintar.',
+ 'Jr. Independencia 210, Belén, Huamanga', -13.1550, -74.2150,
+ '00000000-0000-0000-0000-000000000021',null,'00000000-0000-0000-0000-000000000039',
+ 'pendiente',350,null, null,null, false,false,
  now()-interval '6 hours', null, null, null),
 
 -- ── CANCELADA ────────────────────────────────────────────────
@@ -338,11 +371,12 @@ INSERT INTO solicitudes (
 -- S14: Roberto → Luis (Pintura) cancelada
 ('00000000-0000-0000-0000-000000000114',
  'Pintura de fachada exterior',
- 'Pintar la fachada del edificio de 3 pisos.',
- 'Calle Enrique Palacios 450, Miraflores', -12.1219, -77.0287,
+ 'Pintar la fachada del local de 2 pisos.',
+ 'Jr. San Martín 890, Carmen Alto, Huamanga', -13.1305, -74.2217,
  '00000000-0000-0000-0000-000000000023','00000000-0000-0000-0000-000000000014','00000000-0000-0000-0000-000000000034',
  'cancelado',800,null, null,null, false,false,
- now()-interval '20 days', now()-interval '19 days', null, null);
+ now()-interval '20 days', now()-interval '19 days', null, null)
+ON CONFLICT (id) DO NOTHING;
 
 -- =============================================================
 -- PAGOS (para solicitudes completadas)
@@ -350,14 +384,15 @@ INSERT INTO solicitudes (
 
 INSERT INTO pagos (id, solicitud_id, cliente_id, tecnico_id, monto_total, comision, monto_tecnico, metodo_pago, estado, creado_en)
 VALUES
-(gen_random_uuid(),'00000000-0000-0000-0000-000000000101','00000000-0000-0000-0000-000000000021','00000000-0000-0000-0000-000000000011',180,18,162,'yape','completado',        now()-interval '85 days'),
-(gen_random_uuid(),'00000000-0000-0000-0000-000000000102','00000000-0000-0000-0000-000000000022','00000000-0000-0000-0000-000000000011',250,25,225,'transferencia','completado', now()-interval '70 days'),
-(gen_random_uuid(),'00000000-0000-0000-0000-000000000103','00000000-0000-0000-0000-000000000023','00000000-0000-0000-0000-000000000011',450,45,405,'efectivo','completado',       now()-interval '55 days'),
-(gen_random_uuid(),'00000000-0000-0000-0000-000000000104','00000000-0000-0000-0000-000000000021','00000000-0000-0000-0000-000000000012',120,12,108,'yape','completado',         now()-interval '60 days'),
-(gen_random_uuid(),'00000000-0000-0000-0000-000000000105','00000000-0000-0000-0000-000000000023','00000000-0000-0000-0000-000000000012',220,22,198,'transferencia','completado',now()-interval '40 days'),
-(gen_random_uuid(),'00000000-0000-0000-0000-000000000106','00000000-0000-0000-0000-000000000022','00000000-0000-0000-0000-000000000013',90,9,81,'efectivo','completado',         now()-interval '30 days'),
-(gen_random_uuid(),'00000000-0000-0000-0000-000000000107','00000000-0000-0000-0000-000000000021','00000000-0000-0000-0000-000000000013',70,7,63,'yape','completado',             now()-interval '15 days'),
-(gen_random_uuid(),'00000000-0000-0000-0000-000000000108','00000000-0000-0000-0000-000000000023','00000000-0000-0000-0000-000000000015',130,13,117,'efectivo','completado',     now()-interval '20 days');
+(gen_random_uuid(),'00000000-0000-0000-0000-000000000101','00000000-0000-0000-0000-000000000021','00000000-0000-0000-0000-000000000011',180,18,162,'yape','completado', now()-interval '85 days'),
+(gen_random_uuid(),'00000000-0000-0000-0000-000000000102','00000000-0000-0000-0000-000000000022','00000000-0000-0000-0000-000000000011',250,25,225,'plin','completado',  now()-interval '70 days'),
+(gen_random_uuid(),'00000000-0000-0000-0000-000000000103','00000000-0000-0000-0000-000000000023','00000000-0000-0000-0000-000000000011',450,45,405,'yape','completado', now()-interval '55 days'),
+(gen_random_uuid(),'00000000-0000-0000-0000-000000000104','00000000-0000-0000-0000-000000000021','00000000-0000-0000-0000-000000000012',120,12,108,'yape','completado', now()-interval '60 days'),
+(gen_random_uuid(),'00000000-0000-0000-0000-000000000105','00000000-0000-0000-0000-000000000023','00000000-0000-0000-0000-000000000012',220,22,198,'plin','completado', now()-interval '40 days'),
+(gen_random_uuid(),'00000000-0000-0000-0000-000000000106','00000000-0000-0000-0000-000000000022','00000000-0000-0000-0000-000000000013',90,9,81,'yape','completado',   now()-interval '30 days'),
+(gen_random_uuid(),'00000000-0000-0000-0000-000000000107','00000000-0000-0000-0000-000000000021','00000000-0000-0000-0000-000000000013',70,7,63,'yape','completado',    now()-interval '15 days'),
+(gen_random_uuid(),'00000000-0000-0000-0000-000000000108','00000000-0000-0000-0000-000000000023','00000000-0000-0000-0000-000000000015',130,13,117,'plin','completado', now()-interval '20 days')
+ON CONFLICT (id) DO NOTHING;
 
 -- =============================================================
 -- INGRESOS PLATAFORMA
@@ -388,7 +423,9 @@ VALUES
 ('00000000-0000-0000-0000-000000000012', 306, 306, now()-interval '40 days', now()-interval '40 days'), -- Miguel: 108+198
 ('00000000-0000-0000-0000-000000000013', 144, 144, now()-interval '15 days', now()-interval '15 days'), -- José: 81+63
 ('00000000-0000-0000-0000-000000000014',   0,   0, null,                     now()-interval '50 days'), -- Luis: sin completados
-('00000000-0000-0000-0000-000000000015', 117, 117, now()-interval '20 days', now()-interval '20 days'); -- Pedro: 117
+('00000000-0000-0000-0000-000000000015', 117, 117, now()-interval '20 days', now()-interval '20 days'), -- Pedro: 117
+('00000000-0000-0000-0000-000000000016',   0,   0, null,                     now()-interval '40 days') -- Raúl: recién registrado
+ON CONFLICT (tecnico_id) DO NOTHING;
 
 -- =============================================================
 -- RESENAS (solo para solicitudes completadas)
@@ -403,7 +440,8 @@ VALUES
 ('00000000-0000-0000-0000-000000000105','00000000-0000-0000-0000-000000000023','00000000-0000-0000-0000-000000000012',4,'Buena instalación, el trabajo quedó limpio. Precio justo.',                           now()-interval '39 days'),
 ('00000000-0000-0000-0000-000000000106','00000000-0000-0000-0000-000000000022','00000000-0000-0000-0000-000000000013',5,'José muy rápido y eficiente. La nueva chapa quedó perfecta.',                         now()-interval '29 days'),
 ('00000000-0000-0000-0000-000000000107','00000000-0000-0000-0000-000000000021','00000000-0000-0000-0000-000000000013',4,'Abrió la puerta sin problema. Cobró lo justo y fue rápido.',                           now()-interval '14 days'),
-('00000000-0000-0000-0000-000000000108','00000000-0000-0000-0000-000000000023','00000000-0000-0000-0000-000000000015',4,'Buena reparación, la puerta cierra perfecto ahora. Precio razonable.',                now()-interval '19 days');
+('00000000-0000-0000-0000-000000000108','00000000-0000-0000-0000-000000000023','00000000-0000-0000-0000-000000000015',4,'Buena reparación, la puerta cierra perfecto ahora. Precio razonable.',                now()-interval '19 days')
+ON CONFLICT (id) DO NOTHING;
 
 -- =============================================================
 -- SUSCRIPCIONES PREMIUM
@@ -412,7 +450,8 @@ VALUES
 INSERT INTO suscripciones (tecnico_id, plan, precio, inicio, fin, estado, renovacion_automatica)
 VALUES
 ('00000000-0000-0000-0000-000000000011','mensual', 120, now()-interval '30 days', now()+interval '60 days', 'activo',  true),
-('00000000-0000-0000-0000-000000000012','mensual',  90, now()-interval '25 days', now()+interval '25 days', 'activo',  false);
+('00000000-0000-0000-0000-000000000012','mensual',  90, now()-interval '25 days', now()+interval '25 days', 'activo',  false)
+ON CONFLICT DO NOTHING;
 
 -- =============================================================
 -- PUBLICIDADES
@@ -443,7 +482,8 @@ VALUES
  '00000000-0000-0000-0000-000000000012',
  '00000000-0000-0000-0000-000000000110',
  'Perfecto, te espero a las 10am.',
- now()-interval '30 minutes');
+ now()-interval '30 minutes')
+ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO mensajes (conversacion_id, emisor_id, contenido, leido, creado_en)
 VALUES
@@ -461,7 +501,8 @@ VALUES
 ('00000000-0000-0000-0000-000000000202','00000000-0000-0000-0000-000000000012',
  'Claro María, puedo ir mañana a las 10am. ¿Te parece?',        true, now()-interval '2 hours'),
 ('00000000-0000-0000-0000-000000000202','00000000-0000-0000-0000-000000000022',
- 'Perfecto, te espero a las 10am.',                             false, now()-interval '30 minutes');
+ 'Perfecto, te espero a las 10am.',                             false, now()-interval '30 minutes')
+ON CONFLICT DO NOTHING;
 
 -- =============================================================
 -- ACTUALIZAR calificaciones en tecnicos (sync con resenas)

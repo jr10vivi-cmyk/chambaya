@@ -100,7 +100,7 @@ export default function ClienteHistorial() {
           </Link>
         </div>
       ) : (
-        <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+        <div className="bg-white rounded-2xl border border-gray-100">
           <div className="divide-y divide-gray-50">
             {pagos.map((pago) => {
               const tecnico =

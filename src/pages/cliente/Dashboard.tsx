@@ -28,7 +28,7 @@ function TecnicoDestacadoCard({ tecnico }) {
   return (
     <Link
       to={`/cliente/tecnico/${tecnico.id}`}
-      className={`block bg-white rounded-2xl border overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200
+      className={`block bg-white rounded-2xl border hover:shadow-md hover:-translate-y-0.5 transition-all duration-200
         ${tecnico.es_premium ? "border-amber-200 ring-1 ring-amber-100" : "border-gray-100"}`}
     >
       {tecnico.es_premium && (

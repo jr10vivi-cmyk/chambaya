@@ -13,6 +13,7 @@ import {
   BarChart3,
   LogOut,
   Shield,
+  AlertTriangle,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -38,6 +39,7 @@ const navItems: NavItem[] = [
   { to: ROUTES.ADMIN.PUBLICIDAD, icon: Megaphone, label: "Publicidad" },
   { to: ROUTES.ADMIN.SUSCRIPCIONES, icon: Crown, label: "Suscripciones" },
   { to: ROUTES.ADMIN.REPORTES, icon: BarChart3, label: "Reportes" },
+  { to: ROUTES.ADMIN.DISPUTAS, icon: AlertTriangle, label: "Disputas" },
 ];
 
 export default function AdminLayout() {

@@ -21,7 +21,12 @@ export const ROUTES = {
     PUBLICIDAD:    '/admin/publicidad',
     SUSCRIPCIONES: '/admin/suscripciones',
     REPORTES:      '/admin/reportes',
+    DISPUTAS:      '/admin/disputas',
   },
+
+  // Públicas adicionales
+  TERMINOS:   '/terminos',
+  PRIVACIDAD: '/privacidad',
 
   // Técnico
   TECNICO: {

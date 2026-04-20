@@ -96,6 +96,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     nombre,
     apellido,
     role,
+    codigoRef,
   }: SignUpParams) => {
     const { data, error } = await supabase.auth.signUp({
       email,
@@ -105,6 +106,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (error) throw error;
     if (role === "tecnico" && data.user) {
       await supabase.from("tecnicos").insert({ id: data.user.id });
+    }
+    if (codigoRef && data.user) {
+      const { data: refProfile } = await supabase
+        .from("profiles")
+        .select("id")
+        .eq("codigo_referido", codigoRef.toUpperCase())
+        .single();
+      if (refProfile) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        await (supabase as any)
+          .from("profiles")
+          .update({ referido_por: refProfile.id, origen_registro: "referido" })
+          .eq("id", data.user.id);
+      }
     }
     return data;
   };
