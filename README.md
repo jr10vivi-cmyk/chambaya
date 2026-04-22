@@ -312,24 +312,24 @@ npm run dev
 |-------|-----|
 | `admin@chambaya.pe` | admin |
 
-### Tecnicos (verificados)
+### Tecnicos
 
-| Email | Especialidad |
-|-------|--------------|
-| `carlos.gasfitero@chambaya.pe` | Gasfiteria / Plomeria |
-| `luis.electricista@chambaya.pe` | Electricidad |
-| `pedro.albanil@chambaya.pe` | Albanileria |
-| `jose.carpintero@chambaya.pe` | Carpinteria |
-| `miguel.pintor@chambaya.pe` | Pintura |
-| `roberto.cerrajero@chambaya.pe` | Cerrajeria |
+| Email | Nombre |
+|-------|--------|
+| `carlos.quispe@tecnico.com` | Carlos Quispe (Premium) |
+| `miguel.torres@tecnico.com` | Miguel Torres (Premium) |
+| `jose.mamani@tecnico.com` | José Mamani |
+| `luis.vargas@tecnico.com` | Luis Vargas |
+| `pedro.flores@tecnico.com` | Pedro Flores |
+| `raul.huaman@tecnico.com` | Raúl Huamán |
 
 ### Clientes
 
-| Email | Notas |
-|-------|-------|
-| `maria.cliente@chambaya.pe` | Cliente con historial |
-| `ana.cliente@chambaya.pe` | Cliente nuevo |
-| `juan.cliente@chambaya.pe` | Cliente con disputa previa |
+| Email | Nombre |
+|-------|--------|
+| `ana.garcia@cliente.com` | Ana García |
+| `maria.lopez@cliente.com` | María López |
+| `roberto.silva@cliente.com` | Roberto Silva |
 
 ---
 
