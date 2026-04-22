@@ -161,19 +161,38 @@ export function useSolicitudes(filtroEstado: EstadoSolicitud | null = null) {
     const sol = solicitudes.find(s => s.id === solicitudId)
     if (!sol) return { error: 'Solicitud no encontrada' }
 
-    const { error } = await supabase.from('resenas').insert({
+    // Evitar duplicados: comprobar si ya existe reseña del mismo cliente para la solicitud
+    const { data: existingData, error: selectError } = await supabase
+      .from('resenas')
+      .select('id')
+      .eq('solicitud_id', solicitudId)
+      .eq('cliente_id', profile!.id)
+      .limit(1)
+
+    if (selectError) return { error: selectError.message }
+    if (existingData && (existingData as any).length > 0) {
+      return { error: 'Ya calificaste esta solicitud' }
+    }
+
+    const { data, error } = await supabase.from('resenas').insert({
       solicitud_id: solicitudId,
       cliente_id: profile!.id,
       tecnico_id: (sol.tecnicos as Record<string, unknown>)?.id as string || sol.tecnico_id,
       calificacion,
       comentario: comentario ?? null,
-    })
+    }).select('id, calificacion, comentario')
 
-    if (error) return { error: error.message }
+    if (error) {
+      // manejar posible violación unique por carrera de condiciones
+      if (error.message?.toLowerCase().includes('duplicate') || (error.details && String(error.details).toLowerCase().includes('unique'))) {
+        return { error: 'Ya calificaste esta solicitud' }
+      }
+      return { error: error.message }
+    }
 
     setSolic(prev => prev.map(s =>
       s.id === solicitudId
-        ? { ...s, resenas: [{ id: '', calificacion, comentario: comentario ?? null }] }
+        ? { ...s, resenas: [{ id: (data as any)?.[0]?.id || '', calificacion: (data as any)?.[0]?.calificacion, comentario: (data as any)?.[0]?.comentario ?? null }] }
         : s
     ))
 

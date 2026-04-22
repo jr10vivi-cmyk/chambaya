@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 import { es } from 'date-fns/locale'
 import EstadoBadge from './EstadoBadge'
@@ -8,6 +8,7 @@ import {
 } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
+import { useAuth } from '../../context/AuthContext'
 import type { SolicitudConRelaciones, UserRole } from '../../types'
 
 interface ResenaInput {
@@ -92,6 +93,8 @@ export default function TarjetaSolicitud({
             solicitud_id: solicitud.id,
             puntuacion: nps,
         })
+        // marcar como calificado localmente para actualizar la UI inmediatamente
+        setYaCalificado(true)
         setModalResena(false)
         setProcesando(false)
     }
@@ -110,8 +113,26 @@ export default function TarjetaSolicitud({
         setProcesando(false)
     }
 
-    const yaCalificado = (solicitud.resenas?.length ?? 0) > 0
+    const { profile } = useAuth()
+    const [yaCalificado, setYaCalificado] = useState<boolean>((solicitud.resenas?.length ?? 0) > 0)
     const confirmado = solicitud.confirmado_cliente
+
+    useEffect(() => {
+        let mounted = true
+        const check = async () => {
+            if (!esCliente) return
+            // si ya vienen resenas en el payload no preguntar
+            if ((solicitud.resenas?.length ?? 0) > 0) return
+            try {
+                const { data } = await supabase.from('resenas').select('id').eq('solicitud_id', solicitud.id).eq('cliente_id', profile?.id).limit(1)
+                if (mounted && data && (data as any).length > 0) setYaCalificado(true)
+            } catch (e) {
+                // ignore
+            }
+        }
+        check()
+        return () => { mounted = false }
+    }, [solicitud.id, profile?.id, esCliente, solicitud.resenas])
 
     return (
         <>

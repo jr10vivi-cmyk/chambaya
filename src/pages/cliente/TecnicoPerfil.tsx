@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
+import { ROUTES } from "../../lib/routes";
 import { useAuth } from "../../context/AuthContext";
 import toast from "react-hot-toast";
 import {
@@ -129,6 +130,41 @@ export default function ClienteTecnicoPerfil() {
         </button>
       </div>
     );
+
+  const openChat = async () => {
+    if (!profile) {
+      toast.error("Inicia sesión para chatear");
+      navigate(ROUTES.LOGIN);
+      return;
+    }
+    try {
+      const { data: existing } = await supabase
+        .from("conversaciones")
+        .select("id")
+        .eq("cliente_id", profile.id)
+        .eq("tecnico_id", id)
+        .maybeSingle();
+
+      if (existing && (existing as any).id) {
+        navigate(ROUTES.CLIENTE.CHAT_ID((existing as any).id));
+        return;
+      }
+
+      const { data: conv, error: convErr } = await supabase
+        .from("conversaciones")
+        .insert({
+          cliente_id: profile.id,
+          tecnico_id: id,
+        })
+        .select()
+        .single();
+
+      if (convErr) throw convErr;
+      navigate(ROUTES.CLIENTE.CHAT_ID((conv as any).id));
+    } catch (err: any) {
+      toast.error(err?.message || "Error creando conversación");
+    }
+  };
 
   const nombre =
     `${tecnico.profiles?.nombre} ${tecnico.profiles?.apellido}`.trim();
@@ -281,7 +317,7 @@ export default function ClienteTecnicoPerfil() {
               Solicitar servicio
             </button>
             <button
-              onClick={() => navigate(`/cliente/chat`)}
+              onClick={openChat}
               className="flex items-center justify-center gap-2 border border-gray-200 hover:bg-gray-50 text-gray-700 font-medium py-3 px-5 rounded-xl transition"
             >
               <MessageCircle size={18} />
