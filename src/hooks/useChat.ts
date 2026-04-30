@@ -1,12 +1,9 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { supabase } from "../lib/supabase";
 import { useAuth } from "../context/AuthContext";
+import { contieneContacto } from "../lib/antiFuga";
 import type { Conversacion, Mensaje, Profile, Solicitud } from "../types";
 import type { RealtimeChannel } from "@supabase/supabase-js";
-
-// Detectar si un mensaje intenta compartir contacto (10 digitos, correos, redes)
-const PATRON_CONTACTO =
-  /(\+?51[\s-]?\d{3}[\s-]?\d{3}[\s-]?\d{3}|\b\d{9,10}\b|wa\.me|whatsapp|facebook|instagram|@[a-z0-9]+|mi (número|celular|tel[eé]fono)|te llamo|llámame|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}|correo|gmail|hotmail|outlook)/i;
 
 // ── Tipos para los joins de conversaciones ──
 interface ConversacionConRelaciones extends Conversacion {
@@ -185,7 +182,7 @@ export function useChat(conversacionId: string | null) {
     if (!contenido.trim() || !conv || enviando) return;
 
     // ── ANTI-FUGA: Detectar intento de compartir contacto ──
-    if (PATRON_CONTACTO.test(contenido)) {
+    if (contieneContacto(contenido)) {
       setBloqueado(true);
       setTimeout(() => setBloqueado(false), 4000);
 

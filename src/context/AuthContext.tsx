@@ -2,6 +2,7 @@ import {
   createContext,
   useContext,
   useEffect,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
@@ -38,6 +39,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<ProfileConTecnico | null>(null);
   const [loading, setLoading] = useState(true);
+  const loadedUserIdRef = useRef<string | null>(null);
 
   useEffect(() => {
     // onAuthStateChange es el único punto de entrada al estado de auth.
@@ -48,10 +50,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } = supabase.auth.onAuthStateChange(async (_event, session) => {
       const currentUser = session?.user ?? null;
       setUser(currentUser);
+
       if (currentUser) {
+        // Si el perfil ya está cargado para este mismo usuario, no recargar.
+        // Evita que TOKEN_REFRESHED o re-fires de SIGNED_IN al cambiar de
+        // pestaña reseteen loading=true y muestren LoadingScreen.
+        if (loadedUserIdRef.current === currentUser.id) return;
         setLoading(true);
         await loadProfile(currentUser.id);
+        loadedUserIdRef.current = currentUser.id;
       } else {
+        loadedUserIdRef.current = null;
         setProfile(null);
         setLoading(false);
       }
@@ -136,6 +145,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signOut = async () => {
     await supabase.auth.signOut();
     clearCachedAuth();
+    loadedUserIdRef.current = null;
     setUser(null);
     setProfile(null);
   };
